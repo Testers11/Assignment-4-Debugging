@@ -62,7 +62,15 @@ public class Hotel {
 
 	
 	public Booking findActiveBookingByRoomId(int roomId) {
-		Booking booking = activeBookingsByRoomId.get(roomId);;
+		Booking booking;
+                 if(activeBookingsByRoomId.get(roomId) != null)
+                 {
+                     booking = activeBookingsByRoomId.get(roomId);
+                 }
+                 else
+                 {
+                     booking = null;
+                 }
 		return booking;
 	}
 
@@ -126,6 +134,7 @@ public class Hotel {
 			throw new RuntimeException(mesg);
 		}
 		booking.checkOut();
+		activeBookingsByRoomId.remove(roomId,booking);
 	}
 
 
