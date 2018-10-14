@@ -62,7 +62,15 @@ public class Hotel {
 
 	
 	public Booking findActiveBookingByRoomId(int roomId) {
-		Booking booking = activeBookingsByRoomId.get(roomId);;
+		Booking booking;
+                 if(activeBookingsByRoomId.get(roomId) != null)
+                 {
+                     booking = activeBookingsByRoomId.get(roomId);
+                 }
+                 else
+                 {
+                     booking = null;
+                 }
 		return booking;
 	}
 
@@ -120,13 +128,14 @@ public class Hotel {
 
 	
 	public void checkout(int roomId) {
-		Booking booking = activeBookingsByRoomId.get(roomId);
-		if (booking == null) {
-			String mesg = String.format("Hotel: checkout: no booking present for room id : %d", roomId);
-			throw new RuntimeException(mesg);
-		}
-		booking.checkOut();
-	}
-
+		
+            Booking booking = findActiveBookingByRoomId(roomId);
+            if(booking != null){
+                booking.checkOut();
+                activeBookingsByRoomId.remove(roomId,booking);
+            }else{
+                throw new RuntimeException("No any bookings for this roomId");
+                        
+            }
 
 }
